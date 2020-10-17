@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class GameLogic : MonoBehaviour
 {
     /// <summary>
@@ -62,11 +62,26 @@ public class GameLogic : MonoBehaviour
     private WaitForSeconds wait;
 
 
+
+
+    public GameObject[] cutscenes;
+
+    public GameObject cutscenespanel;
+    public GameObject scorecanvas;
+
+    [SerializeField]
+    private int currentcutscene=0; 
     private void Awake()
     {
+        cutscenespanel.SetActive(false);
+        scorecanvas.SetActive(true);
+        for (int i = 0; i < cutscenes.Length; i++)
+        {
+            cutscenes[i].SetActive(false);
+        }
 
         // Listen to all the moles' click event.
-        foreach(Mole m in moles)
+        foreach (Mole m in moles)
         {
             m.OnMoleDied += MoleDied;
         }
@@ -98,8 +113,42 @@ public class GameLogic : MonoBehaviour
         SpawnImmediate();
     }
 
+    public void startcutscenes()
+    {
+        cutscenespanel.SetActive(true);
+        scorecanvas.SetActive(false);
+        currentcutscene = 0;
+        cutscenes[0].SetActive(true);
+    }
+
+    public void changeCutScene()
+    {
+
+    if(currentcutscene<=9)
+        {//cutscenes[currentcutscene].SetActive(true);
+            for (int i = 0; i < cutscenes.Length; i++)
+            {
+                if (i == currentcutscene)
+                {
+                    cutscenes[i].SetActive(true);
+                }
+                else
+                {
+                    cutscenes[i].SetActive(false);
+                }
+
+
+            }
+            currentcutscene++;
+        }
+        else
+        {
+            NewGame();
+        }
+    }
     public void NewGame()
     {
+        cutscenespanel.SetActive(false);
         ui.NewGame();
         score.NewGame();
         location.NewGame();

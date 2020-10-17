@@ -23,11 +23,9 @@ public class Mole : MonoBehaviour
     public void Respawn(Vector2 pos, MoleData d)
     {
         data = d;
-
         gameObject.GetComponent<RectTransform>().localPosition = pos;
         gameObject.SetActive(true);
         StartCoroutine("Timer");
-
         visuals.Respawn(data);
     }
 
