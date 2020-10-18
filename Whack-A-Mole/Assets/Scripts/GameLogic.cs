@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -66,6 +67,9 @@ public class GameLogic : MonoBehaviour
 
     public GameObject[] cutscenes;
 
+    [Header("Start Panel")]
+    public GameObject startPanel;
+
     public GameObject cutscenespanel;
     public GameObject scorecanvas;
 
@@ -93,6 +97,12 @@ public class GameLogic : MonoBehaviour
         wait = new WaitForSeconds(spawnTimer);
     }
 
+    private void Start()
+    {
+        startPanel.SetActive(true);
+    }
+
+
     /// <summary>
     /// Call back when a mole was clicked.
     /// if clicked is true. the mole was actually click and we need to add to the score.
@@ -114,42 +124,45 @@ public class GameLogic : MonoBehaviour
         SpawnImmediate();
     }
 
-    public void startcutscenes()
-    {
-        cutscenespanel.SetActive(true);
-        scorecanvas.SetActive(false);
-        currentcutscene = 0;
-        cutscenes[0].SetActive(true);
-    }
+    //public void startcutscenes()
+    //{
 
-    public void changeCutScene()
-    {
+    //    cutscenespanel.SetActive(true);
+    //    scorecanvas.SetActive(false);
+    //    currentcutscene = 0;
+    //    cutscenes[0].SetActive(true);
+    //}
 
-        if (currentcutscene <= 9)
-        {//cutscenes[currentcutscene].SetActive(true);
-            for (int i = 0; i < cutscenes.Length; i++)
-            {
-                if (i == currentcutscene)
-                {
-                    cutscenes[i].SetActive(true);
-                }
-                else
-                {
-                    cutscenes[i].SetActive(false);
-                }
+    //public void changeCutScene()
+    //{
+
+    //    if (currentcutscene <= 9)
+    //    {//cutscenes[currentcutscene].SetActive(true);
+    //        for (int i = 0; i < cutscenes.Length; i++)
+    //        {
+    //            if (i == currentcutscene)
+    //            {
+    //                cutscenes[i].SetActive(true);
+    //            }
+    //            else
+    //            {
+    //                cutscenes[i].SetActive(false);
+    //            }
 
 
-            }
-            currentcutscene++;
-        }
-        else
-        {
-            NewGame();
-        }
-    }
+    //        }
+    //        currentcutscene++;
+    //    }
+    //    else
+    //    {
+    //        NewGame();
+    //    }
+    //}
     public void NewGame()
     {
-        cutscenespanel.SetActive(false);
+        startPanel.SetActive(false);
+ 
+       
         ui.NewGame();
         score.NewGame();
         location.NewGame();
@@ -215,7 +228,7 @@ public class GameLogic : MonoBehaviour
     /// <returns></returns>
     private MoleData RandomMole()
     {
-        return moleData[Random.Range(0, 3)];
+        return moleData[UnityEngine.Random.Range(0, 3)];
     }
 
     public void Getspeed()
@@ -228,5 +241,40 @@ public class GameLogic : MonoBehaviour
             }
 
         }
+    }
+
+    public void ToScoreCard()
+    {
+        startPanel.SetActive(false);
+        scorecanvas.SetActive(true);
+
+    }
+
+    public void ToMainMenu()
+    {
+        startPanel.SetActive(true);
+        scorecanvas.SetActive(false);
+
+    }
+
+    IEnumerator cutSceneChanger()
+    { 
+        for (int i = 0; i < 10; i++)
+        {
+            cutscenes[i].SetActive(true);
+            yield return new WaitForSeconds(2);
+
+        }
+       cutscenespanel.SetActive(false);
+       NewGame();
+
+    }
+
+    public void tocutscene()
+    {
+        startPanel.SetActive(false);
+        cutscenespanel.SetActive(true);
+        StartCoroutine(cutSceneChanger());
+       
     }
 }

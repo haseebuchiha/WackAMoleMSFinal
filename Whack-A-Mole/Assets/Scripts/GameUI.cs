@@ -9,6 +9,7 @@ public class GameUI : MonoBehaviour
     {
         scoreCanvas.SetActive(false);
         playCanvas.SetActive(true);
+        
     }
 
     public void GameOver()
