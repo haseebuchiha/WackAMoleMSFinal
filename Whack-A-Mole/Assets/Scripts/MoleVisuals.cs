@@ -12,7 +12,7 @@ public class MoleVisuals : MonoBehaviour
 
     public RectTransform movingImage;
     public RectTransform target;
-        
+    public static float x = 1;
     private float step;
 
     public void Respawn(MoleData data)
@@ -23,7 +23,7 @@ public class MoleVisuals : MonoBehaviour
         back.color = data.color;
 
         movingImage.localPosition = Vector2.zero;
-        step = (Vector2.Distance(movingImage.localPosition, target.localPosition) / data.timeOnScreen) * Time.deltaTime;
+        step = (Vector2.Distance(movingImage.localPosition, target.localPosition) / data.timeOnScreen) * Time.deltaTime*x;
 
         StartCoroutine("Animate");
     }

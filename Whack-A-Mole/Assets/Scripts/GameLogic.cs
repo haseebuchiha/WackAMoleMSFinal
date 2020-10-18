@@ -8,7 +8,7 @@ public class GameLogic : MonoBehaviour
     /// The moles in the scene.
     /// </summary>
     public Mole[] moles;
-    
+
     /// <summary>
     /// All the mole types, MoleData is a scriptable object.
     /// </summary>
@@ -70,9 +70,10 @@ public class GameLogic : MonoBehaviour
     public GameObject scorecanvas;
 
     [SerializeField]
-    private int currentcutscene=0; 
+    private int currentcutscene = 0;
     private void Awake()
     {
+        points = 0;
         cutscenespanel.SetActive(false);
         scorecanvas.SetActive(true);
         for (int i = 0; i < cutscenes.Length; i++)
@@ -91,7 +92,7 @@ public class GameLogic : MonoBehaviour
 
         wait = new WaitForSeconds(spawnTimer);
     }
-    
+
     /// <summary>
     /// Call back when a mole was clicked.
     /// if clicked is true. the mole was actually click and we need to add to the score.
@@ -124,7 +125,7 @@ public class GameLogic : MonoBehaviour
     public void changeCutScene()
     {
 
-    if(currentcutscene<=9)
+        if (currentcutscene <= 9)
         {//cutscenes[currentcutscene].SetActive(true);
             for (int i = 0; i < cutscenes.Length; i++)
             {
@@ -181,9 +182,9 @@ public class GameLogic : MonoBehaviour
     /// <returns></returns>
     IEnumerator SpawnMoles()
     {
-        while(true)
+        while (true)
         {
-            if(currentMolesOnScreen < 7 && disabledMoles.Count > 0)
+            if (currentMolesOnScreen < 7 && disabledMoles.Count > 0)
             {
                 disabledMoles[0].Respawn(location.FindLocation(disabledMoles[0]), RandomMole());
                 disabledMoles.RemoveAt(0);
@@ -215,5 +216,17 @@ public class GameLogic : MonoBehaviour
     private MoleData RandomMole()
     {
         return moleData[Random.Range(0, 3)];
+    }
+
+    public void Getspeed()
+    {
+        if (points % 10 == 0)
+        {
+            if (MoleVisuals.x <= 3.0f)
+            {
+                MoleVisuals.x += 1.0f;
+            }
+
+        }
     }
 }
